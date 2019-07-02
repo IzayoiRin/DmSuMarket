@@ -86,5 +86,3 @@ class SmsCodeAPI(SmsCodeMixin, GenericAPIView):
 
     def get(self, request, *args, **kwargs):
         return self.sms_(request, *args, **kwargs)
-
-

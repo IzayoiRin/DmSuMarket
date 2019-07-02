@@ -7,7 +7,7 @@ from verification import constants
 
 class ImageCodeSerializer(RedisBaseSerializer):
 
-    image_code_id = serializers.CharField(required=True)
+    image_code_id = serializers.UUIDField(required=True)
 
     def create(self, validated_data):
         image_code_id = validated_data['image_code_id']
@@ -21,7 +21,7 @@ class ImageCodeSerializer(RedisBaseSerializer):
 
 class SmsCodeSerializer(RedisBaseSerializer):
 
-    image_code_id = serializers.CharField(required=True)
+    image_code_id = serializers.UUIDField(required=True)
     text = serializers.CharField(required=True)
 
     class Meta:
