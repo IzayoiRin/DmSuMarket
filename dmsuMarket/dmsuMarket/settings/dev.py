@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'verification.apps.VerificationConfig',
 ]
 
 MIDDLEWARE = [
@@ -106,12 +107,25 @@ CACHES = {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': _REDIS_LOCATION + '1',
         'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.cache.RedisCache',
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
-    }
+    },
+    'imgcode': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': _REDIS_LOCATION + '2',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    },
 }
 SEESION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'session'
+
+
+# Auth_user_model_path app.model_class
+
+AUTH_USER_MODEL = 'users.UserModel'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -207,5 +221,5 @@ LOGGING = {
 REST_FRAMEWORK = {
 
     # Exception handlers
-    'EXCEPTION_HANDLER': BASE_DIR + '.utils.exc_handlers.g_exc_handler',
+    'EXCEPTION_HANDLER': 'dmsuMarket.utils.exc_handlers.g_exc_handler',
 }
