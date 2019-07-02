@@ -110,7 +110,7 @@ CACHES = {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     },
-    'imgcode': {
+    'verification': {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': _REDIS_LOCATION + '2',
         'OPTIONS': {

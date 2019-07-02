@@ -26,7 +26,7 @@ class RedisBaseSerializer(serializers.Serializer):
     @redis.setter
     def redis(self, basename):
         try:
-            self.Meta.redis_base = get_redis_connection('imgcode')
+            self.Meta.redis_base = get_redis_connection(basename)
         except Exception as e:
             raise RedisError('Redis connecting Failed: %s' % e)
 
