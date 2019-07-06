@@ -6,6 +6,7 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
+# from celery_tasks.sms.tasks import send_sms_code
 from dmsuMarket.utils.captcha.captcha import captcha
 from dmsuMarket.utils.renderers import JPEGRenderer
 from verification.serializers import ImageCodeSerializer, SmsCodeSerializer
@@ -36,6 +37,7 @@ class SmsCodeMixin(object):
         s = self.get_serializer(data=request.query_params)
         s.is_valid(raise_exception=True)
         sms = '%06d' % random.randint(0, 999999)
+        # TODO send_sms_code.delay(mobile, sms)
         print('>>>>>>>>>>>>Clouds Communicating>>>>>>>>>>>>>>')
         setattr(s, 'sms', sms)
         ret = s.save()

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+import datetime
 import os,sys
 
 
@@ -42,11 +42,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'users.apps.UsersConfig',
     'verification.apps.VerificationConfig',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -216,10 +218,50 @@ LOGGING = {
 }
 
 
+#CosHeader Config
+
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+    'http://www.meiduo.site:8080',
+    'http://api.meiduo.site:8080'
+)
+CORS_ALLOW_CREDENTIALS = True
+
+
 # DRF CONFIG
 
 REST_FRAMEWORK = {
 
     # Exception handlers
     'EXCEPTION_HANDLER': 'dmsuMarket.utils.exc_handlers.g_exc_handler',
+
+    # Authenticators
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+    ],
+
+    # Renderers
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer'
+    ]
+}
+
+
+AUTHENTICATION_BACKENDS = [
+    'authorizations.utils.UsersModelBackends',
+]
+
+AUTHENTICATION_FIELDS = {
+    'mobile': r'^1[3-9]\d{9}$',
+}
+
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_PRIVATE_KEY': "HeWhoFightsTooLongAgainstDragonsBecomesADragonHimself!",
+    'JWT_ALGORITHM': 'HS256',
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'authorizations.utils.jwt_response_payload_handler'
 }
